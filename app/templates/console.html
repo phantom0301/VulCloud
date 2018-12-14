@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block title %}Console{% endblock %}
+
+{% block navbar %}
+<section class="content-header">
+    <h1>Console</h1>
+    <ol class="breadcrumb">
+        <li><i class="fa fa-dashboard"></i> 当前位置</li>
+        <li class="active">容器状态</li>
+        <li class="active">Console</li>
+    </ol>
+</section>
+{% endblock %}
+
+{% block content %}
+<div class="col-lg-12 col-md-12 col-xs-12">
+        <rd-widget>
+                <div class="widget" >
+            <rd-widget-header icon="fa-plus" title-text="日志视图">
+                <div class="widget-header">
+                        <div class="row">
+                            <span class="pull-left"><i class="fa fa-file-alt"></i> 
+                                Web Console
+                            </span>
+                            <span class="pull-right">
+                            </span>
+                        </div>
+                </div>
+            </rd-widget-header>
+<div class="col-sm-12">
+<div id="terminal" name='{{id}}'></div>
+</div>
+</div>
+</rd-widget>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    let wsPing = null;
+    function ping(ws) {
+        console.log('in ping func', ws.state);
+        if (ws.readyState == ws.CLOSED) {
+            clearInterval(wsPing)
+        } else {
+            ws.send('__ping__');
+            tm = setTimeout(function () {
+               /// ---connection closed ///
+            }, 5000);
+        }
+    }
+
+    function pong() {
+        clearTimeout(tm);
+    }
+    var id = $('#terminal').attr('name')
+    let term = new Terminal({
+        cursorBlink: true
+        });
+    term.open(document.getElementById('terminal'));
+    term.writeln("welcome to use docker web terminal!");
+    var host = window.location.host;
+    let socket = new WebSocket('ws://'+host+'/container?id='+id);
+    term.attach(socket);
+
+    socket.onopen = function() {
+        wsPing = setInterval(()=>{ping(socket)}, 5000);
+    };
+    socket.onclose = function () {
+        term.writeln("closed. Thank you for use!");
+    };
+</script>
+{% endblock %}

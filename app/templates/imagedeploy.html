@@ -1,0 +1,352 @@
+{% extends "base.html" %}
+
+{% block title %}镜像部署{% endblock %}
+
+{% block navbar %}
+<section class="content-header">
+    <h1>镜像部署</h1>
+    <ol class="breadcrumb">
+        <li><i class="fa fa-dashboard"></i> 当前位置</li>
+        <li class="active">镜像仓库</li>
+        <li class="active">镜像部署</li>
+    </ol>
+</section>
+{% endblock %}
+
+
+{% block content %}
+{{ form.csrf_token }}
+<div class="widget-body">
+    <div class="widget-content">
+        <form class="form-horizontal" autocomplete="off">
+            <div class="form-group">
+                <label for="container_name" class="col-sm-1 control-label text-left">容器名称</label>
+                <div class="col-sm-11">
+                    <input type="text" class="form-control" id="container_name" placeholder="e.g. myContainer">
+                </div>
+            </div>
+            <!-- !name-input -->
+            <div class="col-sm-12 form-section-title">
+                镜像信息
+            </div>
+            <!---->
+            <!---->
+            <div>
+                <!-- image-and-registry -->
+                <!---->
+                <por-image-registry auto-complete="true" label-class="col-sm-1" input-class="col-sm-11 col-md-5">
+                    <div class="form-group">
+                        <label class="control-label text-left col-sm-1">镜像ID</label>
+                        <div class="col-sm-11 col-md-4">
+                            <input type="text" class="form-control" name="image_name" placeholder="e.g.00ead811e8ae" required="" aria-autocomplete="list" aria-expanded="false" aria-owns="" id="container_id">
+                            <ul class="dropdown-menu"role="listbox" aria-hidden="true" id="">
+                            </ul>
+                        </div>
+                        <label for="image_registry" class="margin-sm-top control-label text-right col-sm-2">
+                        镜像选择
+                        </label>
+                        <div class="margin-sm-top col-sm-11 col-md-4">
+                            <select id="image_registry" class="form-control">
+                                {% if form%}
+                                    {% for content in form.content %}
+                                    <option label="{{content.image_name}}" value="{{content.image_id}}">{{content.image_name}}</option>
+                                    {% endfor%}
+                                {% endif %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-12 small text-warning">
+                            <div>
+                                <p>
+                                    <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> 
+                                    镜像ID是必须的.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </por-image-registry><!---->
+                <!-- !image-and-registry -->
+                <!-- always-pull -->
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <label for="ownership" class="control-label text-left">
+                        Just for fun
+                        </label>
+                        <label class="switch" style="margin-left: 20px;">
+                            <input type="checkbox"><i></i>
+                        </label>
+                    </div>
+                </div>
+                <!-- !always-pull -->
+            </div><!---->
+            <div class="col-sm-12 form-section-title">
+                端口选择
+            </div>
+            <!-- port-mapping -->
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <label class="control-label text-left">端口映射</label>
+                    <span class="label label-default interactive" style="margin-left: 10px;" onclick="addPortBinding()">
+                        <i class="fa fa-plus-circle" aria-hidden="true"></i> 添加映射端口
+                    </span>
+                </div>
+                <!-- port-mapping-input-list -->
+                <div class="col-sm-12 form-inline" style="margin-top: 10px;" id="nameDiv">
+                    <!-- add -->
+                </div>
+            <!-- !port-mapping-input-list -->
+            </div>
+          <!-- !port-mapping -->
+          <!---->
+          <!-- actions -->
+            <div class="col-sm-12 form-section-title">
+                操作
+            </div>
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <button type="button" class="btn" onclick="create()">
+                        <span >开始部署</span>
+                    </button>
+                <!---->
+                </div>
+            </div>
+            <!-- !actions -->
+        </form>
+    </div>
+</div>
+
+
+<div class="widget">
+    <rd-widget-header icon="fa-cog">
+        <div class="widget-header">
+            <div class="row">
+                <span class="pull-left">
+                    <i class="fa fa-cog"></i> 
+                    高级设置 
+                </span>
+                <span class="pull-right">
+                </span>
+            </div>
+        </div>
+    </rd-widget-header>
+    <rd-widget-body>
+        <div class="widget-body">
+            <div class="widget-content">
+                <ul class="nav nav-pills nav-justified">
+                    <li class="active interactive">
+                        <a data-target="#command" data-toggle="tab">启动命令</a>
+                    </li>
+                    <li class="interactive">
+                        <a data-target="#restart-policy" data-toggle="tab">定时销毁</a>
+                    </li>
+                    <li class="interactive">
+                        <a data-target="#runtime-resources" data-toggle="tab">其他设置</a>
+                    </li>
+                </ul>
+                <!-- tab-content -->
+                <div class="tab-content">
+                <!-- tab-command -->
+                    <div class="tab-pane active" id="command">
+                        <form class="form-horizontal" style="margin-top: 15px;">
+                        <!-- command-input -->
+                            <div class="form-group">
+                                <label class="col-sm-2 col-lg-1 control-label text-left">Command</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" id="container_command" placeholder="e.g. /usr/bin/nginx -t -c /mynginx.conf">
+                                </div>
+                            </div>
+                            <!-- !command-input -->
+                            <!-- entrypoint-input -->
+                            <div class="form-group">
+                                <label for="container_entrypoint" class="col-sm-2 col-lg-1 control-label text-left">Entry Point</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" id="container_entrypoint" placeholder="e.g. /bin/sh -c">
+                                </div>
+                            </div>
+                            <!-- !entrypoint-input -->
+                            <!-- workdir-user-input -->
+                            <div class="form-group">
+                                <label for="container_workingdir" class="col-sm-2 col-lg-1 control-label text-left">Working Dir</label>
+                                <div class="col-sm-4">
+                                    <input type="text" class="form-control" id="container_workingdir" placeholder="e.g. /myapp">
+                                </div>
+                                <label for="container_user" class="col-sm-1 control-label text-left">User</label>
+                                <div class="col-sm-4">
+                                    <input type="text" class="form-control" id="container_user" placeholder="e.g. nginx">
+                                </div>
+                            </div>
+                            <!-- !workdir-user-input -->
+                        </form>
+                    </div>
+              <!-- !tab-command -->
+              <!-- tab-restart-policy -->
+                    <div class="tab-pane" id="restart-policy">
+                        <form class="form-horizontal" style="margin-top: 15px;">
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                    <label class="control-label text-left">
+                                        定时销毁
+                                    </label>
+                                    <div class="btn-group btn-group-sm" style="margin-left: 20px;">
+                                        <label class="btn btn-primary active" id="0" onclick=labelclick(this)>
+                                        Never
+                                        </label>
+                                        <label class="btn btn-primary" id="1" onclick=labelclick(this)>
+                                        After 15min
+                                        </label>
+                                        <label class="btn btn-primary" id="2" onclick=labelclick(this)>
+                                        After 30min
+                                        </label>
+                                        <label class="btn btn-primary" id="3" onclick=labelclick(this)>
+                                        After 1hour
+                                        </label>
+                                        <label class="btn btn-primary" id="4" onclick=labelclick(this)>
+                                        After 3hour
+                                        </label>
+                                        <label class="btn btn-primary" id="5" onclick=labelclick(this)>
+                                        After 8hour
+                                        </label>
+                                        <label class="btn btn-primary" id="6" onclick=labelclick(this)>
+                                        After 1day
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- !tab-restart-policy -->
+                    <div class="tab-pane" id="runtime-resources">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </rd-widget-body>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // console.log($("label"));
+    // $('label').on('click', function() { 
+    //     $(this).attr('class', 'orange');
+    //     console.log(1);
+    // });#image_registry > option:nth-child(1)
+    $("#image_registry").change(function(){
+        var value = $(this).children('option:selected').attr('value');
+        console.log(value);
+        $("#container_id").val(value);
+        $("#container_id").attr('value',value);
+        console.log($('#container_id').val());
+    })
+    function labelclick(obj){
+        $(obj).attr('class', 'btn btn-primary active');
+        $(obj).siblings().attr('class', 'btn btn-primary');
+    }
+    function addPortBinding() {
+        var addHtml = '<div style="margin-top: 2px;" id="addport"><!-- host-port --><div class="input-group col-sm-4 input-group-sm"><span class="input-group-addon">宿主机</span><input type="text" class="form-control" placeholder="e.g. 80 or 1.2.3.4:80 (optional)"></div><!-- !host-port --><span style="margin: 0 10px 0 10px;"><i class="fa fa-angle-right" aria-hidden="true"></i></span><!-- container-port --><div class="input-group col-sm-4 input-group-sm"><span class="input-group-addon">容器</span><input type="text" class="form-control" placeholder="e.g. 80"></div><!-- !container-port --><!-- protocol-actions --><div class="input-group col-sm-3 input-group-sm"><div class="btn-group btn-group-sm"><label class="btn btn-primary active" onclick="labelclick(this)">TCP</label><label class="btn btn-primary" onclick="labelclick(this)">UDP</label></div><button class="btn btn-sm btn-danger" type="button" onclick="removePortBinding(this)"><i class="fa fa-trash" aria-hidden="true"></i></button></div><!-- !protocol-actions --></div>';
+        $("#nameDiv").append(addHtml);
+    }
+
+    function removePortBinding(id) {
+        $(id).parent().parent().remove();
+    }
+
+
+    function create() {
+        var container_name = $("#container_name");
+        var container_id = $("#container_id");
+        var port_map = new Array();
+
+        var container_command = $("#container_command");
+        var container_entrypoint = $("#container_entrypoint");
+        var container_workingdir = $("#container_workingdir");
+        var container_user = $("#container_user");
+        var container_time = null;
+        if($("#1").attr('class') == "btn btn-primary active"){
+            container_time = 15;
+        }
+        if($("#2").attr('class') == "btn btn-primary active"){
+            container_time = 30;
+        }
+        if($("#3").attr('class') == "btn btn-primary active"){
+            container_time = 60;
+        }
+        if($("#4").attr('class') == "btn btn-primary active"){
+            container_time = 180;
+        }
+        if($("#5").attr('class') == "btn btn-primary active"){
+            container_time = 480;
+        }
+        if($("#6").attr('class') == "btn btn-primary active"){
+            container_time = 1440;
+        }
+        
+        var port = $('#nameDiv').children('div');
+
+        for(var i=0;i<port.length;i++){
+
+            var hport = port[i].children[0].children[1].value;
+            var cport = port[i].children[2].children[1].value;
+            
+            if (port[i].children[3].children[0].children[0].className == 'btn btn-primary active'){
+                var protocol = 'TCP';
+            }else{
+                var protocol = 'UDP';
+            }
+            port_map.push(new Array(hport,cport,protocol));
+        }
+
+        container_name = container_name.val();
+        container_id = container_id.val();
+        container_command = container_command.val();
+        container_entrypoint = container_entrypoint.val();
+        container_workingdir = container_workingdir.val();
+        container_user = container_user.val();
+        // port_map container_time
+        var csrftoken = $('input[name=csrf_token]').attr('value');
+
+        if(!container_name && !container_id){
+            zlalert.alertInfoToast("请完善容器名称及镜像ID");
+            return;
+        }
+        var formData = new FormData();
+        formData.append("action",'deploy');
+        formData.append("container_name",container_name);
+        formData.append("container_id",container_id);
+        formData.append("container_command",container_command);
+        formData.append("container_entrypoint",container_entrypoint);
+        formData.append("container_workingdir",container_workingdir);
+        formData.append("container_user",container_user);
+        formData.append("container_time",container_time);
+        formData.append("port_map",JSON.stringify(port_map));
+        $.ajax({
+            "url": '/image_deploy/',
+            type:"POST",
+            headers:{'X-CSRFToken':csrftoken},
+            contentType: false,
+            processData: false,
+            traditional: true,
+            "data": formData,
+            'success':function (data) {
+                if(data['code']==200) {
+                    zlalert.alertInfo(data['message']);
+                    window.setTimeout(function(){
+                        window.location.reload();
+                    },5000);
+                    
+                }else{
+                    zlalert.alertInfo(data['message']);
+                }
+            },
+            'fail':function(){
+                zlalert.alertNetworkError();
+            }
+        });
+    }
+
+</script>
+{% endblock %}
+
+

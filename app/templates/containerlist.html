@@ -1,0 +1,172 @@
+{% extends "base.html" %}
+
+{% block title %}容器查看{% endblock %}
+
+{% block navbar %}
+<section class="content-header">
+    <h1>容器查看</h1>
+    <ol class="breadcrumb">
+        <li><i class="fa fa-dashboard"></i> 当前位置</li>
+        <li class="active">容器状态</li>
+        <li class="active">容器查看</li>
+    </ol>
+</section>
+{% endblock %}
+
+{% block content %}
+{{ form.csrf_token }}
+
+<div class="col-sm-12">
+    <containers-datatable title-text="Containers" title-icon="fa-server" dataset="containers" table-key="containers" show-add-action="true">
+        <div class="datatable">
+            <rd-widget>
+                <div class="widget">
+                    <rd-widget-body classes="no-padding">
+                        <div class="widget-body no-padding">
+                            <div class="widget-content">
+                                <div class="toolBar">
+                                    <div class="toolBarTitle">
+                                        <i class="fa fa-server" aria-hidden="true" style="margin-right: 2px;">
+                                        </i> 容器
+                                    </div>
+                                </div>
+                                <containers-datatable-actions>
+                                <div class="actionBar">
+                                    <!-- <div class="btn-group" role="group" aria-label="...">
+                                        <button type="button" class="btn btn-sm btn-danger" onclick="remove()">
+                                            <i class="fa fa-stop space-right" aria-hidden="true"></i>Remove
+                                        </button>
+                                    </div> -->
+                                    <a href="{{ url_for('main.image_deploy') }}">
+  <!---->                               <button type="button" class="btn btn-sm btn-primary">
+                                            <i class="fa fa-plus space-right" aria-hidden="true"></i>添加容器
+                                        </button><!---->
+                                    </a>
+                                </div>
+                                </containers-datatable-actions>
+                                <div class="searchBar">
+                                    <i class="fa fa-search searchIcon" aria-hidden="true"></i>
+                                        <input type="text" class="searchInput" placeholder="Search..." auto-focus="">
+                                </div>
+                                <div class="table-responsive">
+                                    <table class="table table-hover table-filters nowrap-cells">
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                    <!-- <span class="md-checkbox">
+                                                        <input id="select_all" type="checkbox">
+                                                        <label for="select_all"></label>
+                                                    </span> -->
+                                                    <a>
+                                                        容器名
+                                                    </a>
+                                                </th>
+                                                <th uib-dropdown="" dropdown-append-to-body="" auto-close="disabled" class="dropdown">
+                                                    <a>
+                                                        状态
+                  <!---->                               <i class="fa fa-sort-alpha-down" aria-hidden="true"></i>
+                                                    </a>
+                                                </th>
+              <!---->                           <th>
+                                                    操作
+                                                </th>
+
+                                                <!-- <th>
+                                                    <a>
+                                                        Image
+                                                    </a>
+                                                </th> -->
+                                                <th>
+                                                    <a>
+                                                    创建时间
+                                                    </a>
+                                                </th>
+                                                <!-- <th class="">
+                                                    <a>
+                                                        IP Address
+                                                    </a>
+                                                </th> -->
+                                                <th>
+                                                    <a>
+                                                        开放端口
+                                                    </a>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% if form %}
+                                            {% for content in form.content %}
+                                            <tr>
+                                                <td>
+                                                    <span class="md-checkbox">
+                                                        <input id="select_1" type="checkbox" disabled>
+                                                        <label for="select_1"></label>
+                                                    </span>
+                                                    <a title="{{content.container_name}}" href="/containers/{{content.container_id}}">{{content.container_name}}</a>
+                                                </td>
+                                                <td>
+                                                    {% if content.container_status%}
+                                                    <span class="label label-success">running</span><!---->
+                                                    {% else %}
+                                                    <span class="label label-danger">error</span><!---->
+                                                    {% endif %}
+                                                </td>
+                                                <td>
+                                                    <div class="btn-group btn-group-xs" role="group" aria-label="..." style="display:inline-flex;">
+                                                        <a style="margin: 0 2.5px;" title="Logs" href="/containers/{{content.container_id}}/logs">
+                                                            <i class="fa fa-file-alt space-right" aria-hidden="true">
+                                                            </i>
+                                                        </a><!---->
+                                                        <a style="margin: 0 2.5px;" title="Console" href="/containers/{{content.container_id}}/console">
+                                                            <i class="fa fa-terminal space-right" aria-hidden="true"></i>
+                                                        </a><!---->
+                                                        <a style="margin: 0 2.5px;" title="Inspect" href="/containers/{{content.container_id}}/inspect">
+                                                            <i class="fa fa-info-circle space-right" aria-hidden="true"></i>
+                                                        </a><!---->
+                                                        <a style="margin: 0 2.5px;" title="Delete" onclick="del(this);return false" href="/containers/{{content.container_id}}/delete">
+                                                            <i class="fa fa-trash space-right" aria-hidden="true"></i>
+                                                        </a><!---->
+                                                    </div>
+                                                </td><!---->
+                                                <!-- <td><a href="#">-</a></td> -->
+                                                <td>
+                                                    {{content.create_time}}
+                                                </td>
+                                                <!-- <td class="">
+                                                    -
+                                                </td> -->
+                                                <td>
+                                                    <a class="image-tag" target="_blank" href="#">
+                                                        <i class="fa fa-external-link" aria-hidden="true"></i> -
+                                                    </a><!----><!---->
+                                                </td>   
+                                            </tr>
+                                            {% endfor %}
+                                            {% endif %}
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </rd-widget-body>
+                </div>
+            </rd-widget>
+        </div>
+    </containers-datatable>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+function del(obj) {
+        zlalert.alertConfirm({
+            "msg":"您确定要删除这个容器吗?",
+            "confirmCallback":function () {
+                self.location.href = ($(obj).attr("href"));
+            }
+        })
+}
+</script>
+{% endblock %}

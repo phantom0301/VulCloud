@@ -1,0 +1,9 @@
+peewee
+pymysql
+flask
+flask-script
+flask-wtf
+flask-login
+flask-sockets
+docker
+gevent

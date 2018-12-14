@@ -1,0 +1,339 @@
+{% extends "base.html" %}
+
+{% block title %}用户设置{% endblock %}
+
+{% block navbar %}
+<section class="content-header">
+    <h1>用户编辑</h1>
+    <ol class="breadcrumb">
+        <li><i class="fa fa-dashboard"></i> 当前位置</li>
+        <li class="active">用户中心</li>
+        <li class="active">用户设置</li>
+    </ol>
+</section>
+{% endblock %}
+
+{% block content %}
+{{form.csrf_token}}
+{%if current_user.level == 1%}
+
+<div class="col-lg-12 col-md-12 col-xs-12">
+        <rd-widget><div class="widget">
+            <rd-widget-header icon="fa-plus" title-text="Add a new user">
+                <div class="widget-header">
+                    <div class="row">
+                        <span class="pull-left">
+                            <i class="fa fa-plus">
+                            </i> 添加用户
+                        </span>
+                        <span class="pull-right">
+                        </span>
+                    </div>
+                </div>
+            </rd-widget-header>
+        <rd-widget-body>
+            <div class="widget-body">
+                <div class="widget-content">
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label for="username" class="col-sm-3 col-lg-2 control-label text-left">
+                            用户名
+                            </label>
+                            <div class="col-sm-8">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="username" placeholder="e.g. phantom0301" auto-focus="">
+                                        <span class="input-group-addon"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="password" class="col-sm-3 col-lg-2 control-label text-left">密码</label>
+                                <div class="col-sm-8">
+                                    <div class="input-group">
+                                            <span class="input-group-addon"><i class="fa fa-lock" aria-hidden="true"></i>
+                                            </span>
+                                        <input type="password" class="form-control" id="password">
+                                        <span class="input-group-addon"></span>
+                                    </div>
+                                </div>
+                        </div><!---->
+                        <div class="form-group">
+                            <label for="confirm_password" class="col-sm-3 col-lg-2 control-label text-left">确认密码</label>
+                            <div class="col-sm-8">
+                                <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-lock" aria-hidden="true"></i>
+                                        </span>
+                                    <input type="password" class="form-control" id="confirm_password1">
+                                    <span class="input-group-addon"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                <label for="permissions" class="control-label text-left">
+                                    管理员
+                                </label>
+                                <label class="switch" style="margin-left: 20px;">
+                                    <input type="checkbox" name="admin_check">
+                                    <i></i>
+                                </label>
+                            </div>
+                        </div><!---->
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                <button type="button" class="btn btn-primary btn-sm" onclick="addUser()">
+                                <span>
+                                    <i class="fa" style="margin-left: 2px;">添加</i>
+                                </span>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </rd-widget-body>
+    </div>
+</rd-widget>
+        <users-datatable title-text="Users" title-icon="fa-user">
+            <div class="datatable">
+                <rd-widget>
+                    <div class="widget">
+                        <rd-widget-body>
+                            <div class="widget-body">
+                                <div class="widget-content">
+                                    <div class="table-responsive">
+                                        <table class="table table-hover nowrap-cells">
+                                            <thead>
+                                                <tr>
+                                                    <th>
+                                                    <a>用户名</a>
+                                                    </th>
+                                                    <th>
+                                                    <a>权限</a>
+                                                    </th>
+                                                    <th>
+                                                    <a>操作</a>
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% if form %}
+                                                {% for content in form.content %}
+                                                <tr class="">
+                                                <td>
+                                                    <span class="md-checkbox">
+                                                    <input id="select_0" type="checkbox" disabled>
+                                                    <label for="select_0"></label>
+                                                    </span>
+                                                    <a>{{content.username}}</a>
+                                                </td>
+                                                <td>
+                                                    <span>
+                                                        
+                                                    <i class="fa fa-user-circle" aria-hidden="true" style="margin-right: 5px;"></i><!---->
+                                                    {% if content.level == 1%}
+                                                    administrator
+                                                    {% endif %}
+                                                    {% if content.level == 2%}
+                                                    user
+                                                    {% endif %}
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <a style="margin:0 2.5px;" title="Delete" onclick="del(this)" id="{{content.id}}">
+                                                    <i class="fa fa-trash space-right" aria-hidden="true"></i><!---->
+                                                    </a>
+                                                </td>
+                                                </tr><!---->
+                                                {% endfor %}
+                                                {% endif %}
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </rd-widget-body>
+                    </div>
+                </rd-widget>
+            </div>
+        </users-datatable>
+</div>
+{% endif %}
+<div class="col-lg-13">
+<div class="widget">
+        <rd-widget-header icon="fa-lock" title-text="Change user password">
+            <div class="widget-header">
+                <div class="row">
+                    <span class="pull-left">
+                        <i class="fa fa-lock"></i> 
+                        修改用户密码 
+                    </span>
+                    <span class="pull-right">
+                    </span>
+                </div>
+            </div>
+        </rd-widget-header>
+        <rd-widget-body>
+            <div class="widget-body">
+                <div class="widget-content">
+                    <form class="form-horizontal" style="margin-top: 15px;">
+                        <div class="form-group">
+                            <label for="new_password" class="col-sm-2 control-label text-left">新密码</label>
+                                <div class="col-sm-8">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-lock" aria-hidden="true"></i>
+                                        </span>
+                                        <input type="password" class="form-control" id="new_password">
+                                    </div>
+                                </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="confirm_password" class="col-sm-2 control-label text-left">确认密码</label>
+                                <div class="col-sm-8">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-lock" aria-hidden="true"></i>
+                                        </span>
+                                        <input type="password" class="form-control" id="confirm_password2">
+                                        <span class="input-group-addon">
+                                        </span>
+                                    </div>
+                                </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-2">
+                                <button type="submit" class="btn btn-primary btn-sm" onclick="updateUser();return false">修改密码</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </rd-widget-body>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    function addUser(){
+        username = $("#username");
+        password = $("#password");
+        confirm_password = $("#confirm_password1");
+        admin_check = document.getElementsByName('admin_check');
+        if(admin_check[0].checked==true){
+            level = 1;
+        }else{
+            level = 2;
+        }
+        username = username.val();
+        password = password.val();
+        confirm_password = confirm_password.val()
+        var csrftoken = $('input[name=csrf_token]').attr('value');
+        if(!username || !password){
+            zlalert.alertInfoToast("请完善用户信息");
+            return;
+        }
+        if(password != confirm_password){
+            zlalert.alertInfoToast("两次输入的密码不一致");
+            return;
+        }
+        var formData = new FormData();
+        formData.append("action",'add');
+        formData.append("username",username);
+        formData.append("password",password);
+        formData.append("level",level);
+        $.ajax({
+            "url": '/user_manage',
+            type:"POST",
+            headers:{'X-CSRFToken':csrftoken},
+            contentType: false,
+            processData: false,
+            traditional: true,
+            "data": formData,
+            'success':function (data) {
+                if(data['code']==200) {
+                    zlalert.alertInfo(data['message']);
+                    window.setTimeout(function(){
+                        window.location.reload();
+                    },5000);
+                    
+                }else{
+                    zlalert.alertInfo(data['message']);
+                }
+            },
+            'fail':function(){
+                zlalert.alertNetworkError();
+            }
+        });
+    }
+
+function updateUser() {
+    new_password = $("#new_password");
+    new_confirm = $("#confirm_password2");
+    new_password = new_password.val();
+    new_confirm = new_confirm.val();
+    var csrftoken = $('input[name=csrf_token]').attr('value');
+    if(!new_password){
+            zlalert.alertInfoToast("请完善密码");
+            return;
+        }
+    if(new_password != new_confirm){
+            zlalert.alertInfoToast("两次输入的密码不一致");
+            return;
+        }
+
+    var formData = new FormData();
+    formData.append("action",'update');
+    formData.append("new_password",new_password);
+    $.ajax({
+            "url": '/user_manage',
+            type:"POST",
+            headers:{'X-CSRFToken':csrftoken},
+            contentType: false,
+            processData: false,
+            traditional: true,
+            "data": formData,
+            'success':function (data) {
+                if(data['code']==200) {
+                    zlalert.alertInfo(data['message']);
+                    window.setTimeout(function(){
+                        window.location.reload();
+                    },5000);
+                    
+                }else{
+                    zlalert.alertInfo(data['message']);
+                }
+            },
+            'fail':function(){
+                zlalert.alertNetworkError();
+            }
+        });
+}
+
+function del(obj) {
+    id = $(obj).attr('id');
+    var csrftoken = $('input[name=csrf_token]').attr('value');
+    zlalert.alertConfirm({
+                "msg":"您确定要删除该用户吗?",
+                "confirmCallback":function () {
+                    $.post({
+                        'url':'/user_manage',
+                        headers:{'X-CSRFToken':csrftoken},
+                        'data':{
+                            "action":"delete",
+                            'id':id
+                        },
+                        'success':function(data){
+                            if(data['code'] == 200){
+                                // zlalert.alertInfo(data['message']);
+                                window.location.reload();
+                            }else{
+                                zlalert.alertInfo(data['message']);
+                            }
+                        }
+                    })
+                }
+            })
+}
+</script>
+{% endblock %}

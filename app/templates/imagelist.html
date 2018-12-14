@@ -1,0 +1,254 @@
+{% extends "base.html" %}
+
+{% block title %}镜像查看{% endblock %}
+
+{% block navbar %}
+<section class="content-header">
+    <h1>镜像查询</h1>
+    <ol class="breadcrumb">
+        <li><i class="fa fa-dashboard"></i> 当前位置</li>
+        <li class="active">镜像仓库</li>
+        <li class="active">镜像查询</li>
+    </ol>
+</section>
+{% endblock %}
+
+{% block content %}
+<!-- <div class="col-sm-12"> -->
+    <template-list title-text="Templates" title-icon="fa-rocket" templates="templates" select-action="selectTemplate" delete-action="deleteTemplate">
+    <div class="datatable">
+
+        <div class="toolBar">
+            <div class="toolBarTitle">
+                <i class="fa fa-rocket"  aria-hidden="true" style="margin-right: 2px;"></i> 镜像
+            </div>
+        </div>
+
+        <div class="actionBar">
+        <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#image-dialog">
+            <i class="fa fa-plus space-right"></i>添加镜像
+        </button>
+        </div>
+
+        <div class="searchBar" style="border-top: 2px solid #f6f6f6;">
+            <i class="fa fa-search searchIcon" aria-hidden="true"></i>
+            <input type="text" class="searchInput" placeholder="Search..." auto-focus="">
+        </div>
+        <div class="blocklist">
+            <div class="box-body">
+                {% for row in form.content %}
+                <template-item model="template" id="{{row.image_id}}">
+                        <div class="blocklist-item">
+                            <div class="blocklist-item-box">
+                                <span>
+                                    <img class="blocklist-item-logo" src="/static/im_image/{{row.image_img}}">
+                                </span>
+                                <span class="col-sm-12">
+                                    <div class="blocklist-item-line">
+                                        <span>
+                                            <span class="blocklist-item-title">
+                                            {{row.image_name}}
+                                            </span>
+                                            <span class="space-left blocklist-item-subtitle">
+                                                <span>
+                                                    <i class="fab fa-linux" aria-hidden="true"></i>
+                                                </span>
+                                                <span>
+                                                container
+                                                </span>
+                                            </span>
+                                        </span>
+                                        <span class="text-small">
+                                            <a class="btn btn-xs btn-primary" href="/image_deploy">
+                                                <i class="fa fa-edit" aria-hidden="true"></i>
+                                                Deploy
+                                            </a>
+                                            <a class="btn btn-xs btn-primary" href="#">
+                                                <i class="fa fa-edit" aria-hidden="true"></i>
+                                                Update
+                                            </a>
+                                            <a class="btn btn-xs btn-danger delete-image" id="{{row.id}}">
+                                                <i class="fa fa-trash" aria-hidden="true"></i> 
+                                                Delete
+                                            </a>
+                                        </span>
+                                    </div>
+                                    <div class="blocklist-item-line">
+                                        <span class="blocklist-item-desc">
+                                        {{row.image_description}}
+                                        </span>
+                                        <span class="small text-muted">
+                                        docker
+                                        </span>
+                                    </div>
+                                </span>
+                            </div>
+                        </div>
+                    </template-item>
+                {% endfor %}
+            </div>
+
+            <ul class="pagination">    
+                <div class="box-footer clearfix">
+                    {% if form%}
+                    <ul class="pagination pagination-sm no-margin pull-right">
+                    <li><a href="#">&laquo;</a></li>
+                    {% for i in range(1, form.total_page+1) %}
+                    {% if i == form.page %}
+                    <li><a href="?page={{i}}"><b>{{i}}</b></a></li>
+                    {% else %}
+                    <li><a href="?page={{i}}">{{i}}</a></li>
+                    {% endif %}
+                    {% endfor %}
+                    <li><a href="#">&raquo;</a></li>
+                    </ul>
+                    {% endif %}
+                </div>   
+            </ul>
+        </div>
+    </div>
+    </template-list>
+<!-- </div> -->
+
+<div class="modal fade" id="image-dialog" tabindex="-1" role="dialog" aria-labelledby="image-dialog" data-backdrop="static" data-keyboard="false" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="image-dialog">添加镜像</h4>
+            </div>
+            <div class="modal-body">
+                <form action="" class="form-horizontal">
+                    {{ form.csrf_token }}
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">镜像名：</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="image_name" placeholder="e.g. Java RMI">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">描述：</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="image_description" placeholder="e.g. Some vulnerability in Java RMI">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">镜像ID:</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="image_id" placeholder="请导入镜像后使用 sudo docker images查看">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">图片：</label>
+                        <div class="col-sm-7">
+                            <input type="file" class="form-control" name="image_img" id="FileUpload" placeholder="镜像配图">
+                        </div>
+                        <button class="btn btn-info col-sm-2" id="upload-btn" >上传图片</button>
+                    </div>
+                </form>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" id="save-image">保存</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    $("#upload-btn").click(function () {
+        event.preventDefault();
+        $("#FileUpload").click();
+
+    });
+
+    $(function () {
+    $("#save-image").click(function (event) {
+        event.preventDefault();
+        var dialog = $("#image-dialog");
+        var nameInput = dialog.find("input[name='image_name']");
+        var desInput = dialog.find("input[name='image_description']");
+        var idInput = dialog.find("input[name='image_id']");
+        var fileObj = document.getElementById("FileUpload").files[0];
+        if(fileObj!=undefined){
+            var imgInput = document.getElementById("FileUpload").files[0].name;
+        }
+        var imgInput = null;
+        var name = nameInput.val();
+        var des = desInput.val();
+        var id = idInput.val();
+        var img = imgInput;
+        var csrftoken = $('input[name=csrf_token]').attr('value');
+
+        if(!name || !id){
+            zlalert.alertInfoToast("请输入完整信息！");
+            return;
+        }
+        var formData = new FormData();
+        formData.append("action","add");
+        formData.append("image_name",name);
+        formData.append("image_id",id);
+        formData.append("image_description",des);
+        formData.append("image_img",img);
+        formData.append("image_file",fileObj);
+        $.ajax({
+            "url": '/image_look/',
+            type:"POST",
+            headers:{'X-CSRFToken':csrftoken},
+            contentType: false,
+            processData: false,
+            "data": formData,
+            'success':function (data) {
+                dialog.modal("hide");
+                if(data['code']==200) {
+                    window.location.reload();
+                }else{
+                    zlalert.alertInfo(data['message']);
+                }
+            },
+            'fail':function(){
+                zlalert.alertNetworkError();
+            }
+        });
+    });
+});
+
+    $(function () {
+        $(".delete-image").click(function (event) {
+            var self = $(this);
+            var id = self.attr('id');
+            var csrftoken = $('input[name=csrf_token]').attr('value');
+            zlalert.alertConfirm({
+                "msg":"您确定要删除这个镜像吗?",
+                "confirmCallback":function () {
+                    $.post({
+                        'url':'/image_look/',
+                        headers:{'X-CSRFToken':csrftoken},
+                        'data':{
+                            "action":"del",
+                            'id':id
+                        },
+                        'success':function(data){
+                            if(data['code'] == 200){
+                                // zlalert.alertInfo(data['message']);
+                                window.location.reload();
+                            }else{
+                                zlalert.alertInfo(data['message']);
+                            }
+                        }
+                    })
+                }
+            })
+
+        })
+    })
+</script>
+{% endblock %}

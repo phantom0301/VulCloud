@@ -1,0 +1,437 @@
+{
+  "_args": [
+    [
+      "xterm",
+      "/Users/huangchao/PycharmProjects/docker-iterm/static"
+    ]
+  ],
+  "_from": "xterm@latest",
+  "_id": "xterm@2.9.2",
+  "_inCache": true,
+  "_installable": true,
+  "_location": "/xterm",
+  "_nodeVersion": "6.9.5",
+  "_npmOperationalInternal": {
+    "host": "s3://npm-registry-packages",
+    "tmp": "tmp/xterm-2.9.2.tgz_1502261345709_0.7970366002991796"
+  },
+  "_npmUser": {
+    "email": "pariskasidiaris@gmail.com",
+    "name": "paris"
+  },
+  "_npmVersion": "5.1.0",
+  "_phantomChildren": {},
+  "_requested": {
+    "name": "xterm",
+    "raw": "xterm",
+    "rawSpec": "",
+    "scope": null,
+    "spec": "latest",
+    "type": "tag"
+  },
+  "_requiredBy": [
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/xterm/-/xterm-2.9.2.tgz",
+  "_shasum": "ec3e7c636ba67af4a7026be2cff7bdf08e56400a",
+  "_shrinkwrap": null,
+  "_spec": "xterm",
+  "_where": "/Users/huangchao/PycharmProjects/docker-iterm/static",
+  "bugs": {
+    "url": "https://github.com/sourcelair/xterm.js/issues"
+  },
+  "contributors": [
+    {
+      "name": "List of xterm.js contributors. Updated before every release."
+    },
+    {
+      "email": "aandrienko@codenvy.com",
+      "name": "Aleksandr Andrienko"
+    },
+    {
+      "email": "oandriie@redhat.com",
+      "name": "Aleksandr Andriienko"
+    },
+    {
+      "email": "alessandro.nadalin@gmail.com",
+      "name": "Alessandro Nadalin"
+    },
+    {
+      "email": "noseglid@gmail.com",
+      "name": "Alexander Olsson"
+    },
+    {
+      "email": "alexey@gravitational.com",
+      "name": "Alexey Kontsevoy"
+    },
+    {
+      "email": "me@anishathalye.com",
+      "name": "Anish Athalye"
+    },
+    {
+      "email": "lapenna.anthony@gmail.com",
+      "name": "Anthony Lapenna"
+    },
+    {
+      "email": "akalipetis@sourcelair.com",
+      "name": "Antonis Kalipetis"
+    },
+    {
+      "email": "meefik@gmail.com",
+      "name": "Anton Skshidlevsky"
+    },
+    {
+      "email": "anton.yurovskykh@gmail.com",
+      "name": "Anton Yurovskykh"
+    },
+    {
+      "email": "artyom.arbatskiy@gmail.com",
+      "name": "Artem Arbatskiy"
+    },
+    {
+      "email": "austinrobertson@gmail.com",
+      "name": "Austin Robertson"
+    },
+    {
+      "email": "colors.aya@gmail.com",
+      "name": "ayapi"
+    },
+    {
+      "email": "ben@benhall.me.uk",
+      "name": "Ben Hall"
+    },
+    {
+      "email": "benjamin.fischer@rwth-aachen.de",
+      "name": "Benjamin Fischer"
+    },
+    {
+      "email": "billchurch@users.noreply.github.com",
+      "name": "Bill Church"
+    },
+    {
+      "email": "bobreid@Bobs-MacBook-Pro.local",
+      "name": "Bob Reid"
+    },
+    {
+      "email": "nison.mael+bottleofwater@gmail.com",
+      "name": "bottleofwater"
+    },
+    {
+      "email": "brian@mockbrian.com",
+      "name": "Brian Mock"
+    },
+    {
+      "email": "carson@betterservers.com",
+      "name": "Carson Anderson"
+    },
+    {
+      "email": "chabup@delean.fr",
+      "name": "CHaBou"
+    },
+    {
+      "email": "budde377@gmail.com",
+      "name": "Christian Budde Christensen"
+    },
+    {
+      "email": "chrmarti@microsoft.com",
+      "name": "Christof Marti"
+    },
+    {
+      "email": "chjjeffrey@gmail.com",
+      "name": "Christopher Jeffrey"
+    },
+    {
+      "email": "mnemonic.enemy@gmail.com",
+      "name": "coderaiser"
+    },
+    {
+      "email": "daimms@microsoft.com",
+      "name": "Daniel Imms"
+    },
+    {
+      "email": "drisacher@gmail.com",
+      "name": "Daniel Risacher"
+    },
+    {
+      "email": "dbkaplun@twitch.tv",
+      "name": "Dan Kaplun"
+    },
+    {
+      "email": "freebroccolo@users.noreply.github.com",
+      "name": "Darin Morrison"
+    },
+    {
+      "email": "andfoy@gmail.com",
+      "name": "Edgar Andrés Margffoy Tuay"
+    },
+    {
+      "email": "staticfloat@gmail.com",
+      "name": "Elliot Saba"
+    },
+    {
+      "email": "gary@rstudio.com",
+      "name": "Gary Ritchie"
+    },
+    {
+      "email": "h.sugipon@gmail.com",
+      "name": "hiro-su"
+    },
+    {
+      "email": "ianlewis@google.com",
+      "name": "Ian Lewis"
+    },
+    {
+      "email": "ido@twiggle.com",
+      "name": "imoses"
+    },
+    {
+      "email": "indietasten@gmail.com",
+      "name": "InDieTasten"
+    },
+    {
+      "email": "akasidiari@inf.uth.gr",
+      "name": "irokas"
+    },
+    {
+      "email": "himself@jeanbruenn.info",
+      "name": "Jean Bruenn"
+    },
+    {
+      "email": "jedanyow@microsoft.com",
+      "name": "Jeremy Danyow"
+    },
+    {
+      "email": "jomo@microsoft.com",
+      "name": "Joao Moreno"
+    },
+    {
+      "email": "mail@joaomoreno.com",
+      "name": "Joao Moreno"
+    },
+    {
+      "email": "jon.masters@sky.com",
+      "name": "Jon Masters"
+    },
+    {
+      "email": "jerch@rockborn.de",
+      "name": "Jörg Breitbart"
+    },
+    {
+      "email": "justin@mecham.me",
+      "name": "Justin Mecham"
+    },
+    {
+      "email": "lanwen@yandex.ru",
+      "name": "Kirill Merkushev"
+    },
+    {
+      "email": "lucian.buzzo@gmail.com",
+      "name": "Lucian Buzzo"
+    },
+    {
+      "email": "nison.mael@gmail.com",
+      "name": "Maël Nison"
+    },
+    {
+      "email": "i@martincl2.me",
+      "name": "Martin Chloride"
+    },
+    {
+      "email": "jiahaow@ca.ibm.com",
+      "name": "Martin Wang"
+    },
+    {
+      "email": "matb@microsoft.com",
+      "name": "Matt Bierner"
+    },
+    {
+      "email": "mikesir87@gmail.com",
+      "name": "Michael Irwin"
+    },
+    {
+      "email": "mikko.karvonen@arm.com",
+      "name": "Mikko Karvonen"
+    },
+    {
+      "email": "t.zilz@mofux.org",
+      "name": "mofux"
+    },
+    {
+      "email": "nicolas.ramz@gmail.com",
+      "name": "Nicolas Ramz"
+    },
+    {
+      "email": "oandriie@redhat.com",
+      "name": "Oleksandr Andriienko"
+    },
+    {
+      "email": "pariskasidiaris@gmail.com",
+      "name": "Paris Kasidiaris"
+    },
+    {
+      "email": "paris@sourcelair.com",
+      "name": "Paris Kasidiaris"
+    },
+    {
+      "email": "runar@greenqloud.com",
+      "name": "runarberg"
+    },
+    {
+      "email": "saswatds@users.noreply.github.com",
+      "name": "Saswat Das"
+    },
+    {
+      "email": "saul@codevolve.com",
+      "name": "Saul Costa"
+    },
+    {
+      "email": "tsl0922@gmail.com",
+      "name": "Shuanglei Tao"
+    },
+    {
+      "email": "steven.silvester@ieee.org",
+      "name": "Steven Silvester"
+    },
+    {
+      "email": "stuicey@users.noreply.github.com",
+      "name": "stuicey"
+    },
+    {
+      "email": "umberos@gmail.com",
+      "name": "t-amqi"
+    },
+    {
+      "email": "thanasis@sourcelair.com",
+      "name": "Thanasis Daglis"
+    },
+    {
+      "email": "thomas@kreativkonzentrat.de",
+      "name": "thomas"
+    },
+    {
+      "email": "t.zilz@mofux.org",
+      "name": "Thomas Zilz"
+    },
+    {
+      "email": "tine.jozelj@outlook.com",
+      "name": "Tine Jozelj"
+    },
+    {
+      "email": "tjewell@codenvy.com",
+      "name": "Tyler Jewell"
+    },
+    {
+      "email": "me@vincentwoo.com",
+      "name": "Vincent Woo"
+    },
+    {
+      "email": "shigure@refy.net",
+      "name": "yutaka"
+    },
+    {
+      "email": "yuvipanda@gmail.com",
+      "name": "YuviPanda"
+    }
+  ],
+  "dependencies": {},
+  "description": "Full xterm terminal, in your browser",
+  "devDependencies": {
+    "@types/chai": "^3.4.34",
+    "@types/jsdom": "^11.0.1",
+    "@types/mocha": "^2.2.33",
+    "@types/node": "^6.0.41",
+    "browserify": "^13.3.0",
+    "chai": "3.5.0",
+    "docdash": "0.4.0",
+    "express": "4.13.4",
+    "express-ws": "2.0.0-rc.1",
+    "fs-extra": "^1.0.0",
+    "glob": "^7.0.5",
+    "gulp": "3.9.1",
+    "gulp-cli": "^1.2.2",
+    "gulp-coveralls": "^0.1.4",
+    "gulp-istanbul": "^1.1.1",
+    "gulp-mocha": "^3.0.1",
+    "gulp-sourcemaps": "1.9.1",
+    "gulp-typescript": "^3.1.3",
+    "gulp-util": "3.0.8",
+    "jsdoc": "3.4.3",
+    "jsdom": "^11.1.0",
+    "merge-stream": "^1.0.1",
+    "node-pty": "^0.4.1",
+    "nodemon": "1.10.2",
+    "sorcery": "^0.10.0",
+    "tslint": "^4.0.2",
+    "typescript": "~2.2.0",
+    "vinyl-buffer": "^1.0.0",
+    "vinyl-source-stream": "^1.1.0"
+  },
+  "directories": {},
+  "dist": {
+    "integrity": "sha512-mdfPk9nY6WmKkMDIZUL6xVIpJoP6JLv3mQ2hA490e2DboUlTWt2f60cTnTT20ZYFU11mx9OgVCcqhDI7vOAQ5Q==",
+    "shasum": "ec3e7c636ba67af4a7026be2cff7bdf08e56400a",
+    "tarball": "https://registry.npmjs.org/xterm/-/xterm-2.9.2.tgz"
+  },
+  "files": [
+    "*.js",
+    "*.json",
+    "dist/*.css",
+    "dist/**/*.css",
+    "dist/*.js",
+    "dist/*.js.map",
+    "dist/**/*.js",
+    "dist/**/*.js.map",
+    "lib/*.css",
+    "lib/**/*.css",
+    "lib/*.js",
+    "lib/*.js.map",
+    "lib/**/*.js",
+    "lib/**/*.js.map",
+    "src/*.css",
+    "src/**/*.css",
+    "src/*.js",
+    "src/*.js.map",
+    "src/*.ts",
+    "src/**/*.js",
+    "src/**/*.js.map",
+    "src/**/*.ts"
+  ],
+  "gitHead": "ea07bf8f694a6e9714779b19c174e26162c39196",
+  "homepage": "https://github.com/sourcelair/xterm.js#readme",
+  "ignore": [
+    "demo",
+    "test",
+    ".gitignore"
+  ],
+  "license": "MIT",
+  "main": "lib/xterm.js",
+  "maintainers": [
+    {
+      "email": "pariskasidiaris@gmail.com",
+      "name": "paris"
+    },
+    {
+      "email": "tyriar@tyriar.com",
+      "name": "tyriar"
+    }
+  ],
+  "name": "xterm",
+  "optionalDependencies": {},
+  "readme": "ERROR: No README data found!",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sourcelair/xterm.js.git"
+  },
+  "scripts": {
+    "build": "gulp build",
+    "build:docs": "jsdoc -c jsdoc.json",
+    "coveralls": "gulp coveralls",
+    "dev": "nodemon -e js,ts,css --watch src --watch demo --exec npm start",
+    "lint": "tslint src/*.ts src/**/*.ts",
+    "prepublish": "npm run build",
+    "prestart": "npm run build",
+    "start": "node demo/app",
+    "test": "gulp test"
+  },
+  "version": "2.9.2"
+}

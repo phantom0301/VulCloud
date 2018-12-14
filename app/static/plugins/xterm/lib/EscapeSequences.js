@@ -1,0 +1,42 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var C0;
+(function (C0) {
+    C0.NUL = '\x00';
+    C0.SOH = '\x01';
+    C0.STX = '\x02';
+    C0.ETX = '\x03';
+    C0.EOT = '\x04';
+    C0.ENQ = '\x05';
+    C0.ACK = '\x06';
+    C0.BEL = '\x07';
+    C0.BS = '\x08';
+    C0.HT = '\x09';
+    C0.LF = '\x0a';
+    C0.VT = '\x0b';
+    C0.FF = '\x0c';
+    C0.CR = '\x0d';
+    C0.SO = '\x0e';
+    C0.SI = '\x0f';
+    C0.DLE = '\x10';
+    C0.DC1 = '\x11';
+    C0.DC2 = '\x12';
+    C0.DC3 = '\x13';
+    C0.DC4 = '\x14';
+    C0.NAK = '\x15';
+    C0.SYN = '\x16';
+    C0.ETB = '\x17';
+    C0.CAN = '\x18';
+    C0.EM = '\x19';
+    C0.SUB = '\x1a';
+    C0.ESC = '\x1b';
+    C0.FS = '\x1c';
+    C0.GS = '\x1d';
+    C0.RS = '\x1e';
+    C0.US = '\x1f';
+    C0.SP = '\x20';
+    C0.DEL = '\x7f';
+})(C0 = exports.C0 || (exports.C0 = {}));
+;
+
+//# sourceMappingURL=EscapeSequences.js.map

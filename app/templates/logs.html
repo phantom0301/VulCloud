@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block title %}Logs{% endblock %}
+
+{% block navbar %}
+<section class="content-header">
+    <h1>Logs</h1>
+    <ol class="breadcrumb">
+        <li><i class="fa fa-dashboard"></i> 当前位置</li>
+        <li class="active">容器状态</li>
+        <li class="active">Logs</li>
+    </ol>
+</section>
+{% endblock %}
+
+{% block content %}
+<style>
+
+        pre{
+        white-space:pre-line;
+        word-wrap:break-word;
+        }
+    
+    </style>
+<div class="col-lg-12 col-md-12 col-xs-12">
+    <rd-widget>
+        <div class="widget" >
+    <rd-widget-header icon="fa-plus" title-text="日志视图">
+        <div class="widget-header">
+            <div class="row">
+                <span class="pull-left">
+                    <i class="fa fa-file-alt">
+                    </i> 日志视图
+                </span>
+                <span class="pull-right">
+                </span>
+            </div>
+        </div>
+    </rd-widget-header>
+<div class="widget-body">
+<pre class="log_viewer wrap_lines" force-glue="" id="logs">
+    {{logs}}
+</pre>
+</div>
+</div>
+</rd-widget>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+$('#logs').html(JsonFormat());
+
+function JsonFormat() {
+    var jtext = $('#logs').text();
+    json = jtext;
+    json = json.replace(/\\n/g, '<br>').replace(/\s{2,}/g,'<br>');
+    console.log(json);
+	return json;
+}
+      
+</script>
+{% endblock %}

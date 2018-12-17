@@ -146,8 +146,8 @@ gunicorn -k flask_sockets.worker --workers=4 --bind=0.0.0.0:5000 manage:app
 
 ## 项目构建者
 
-- kssandyy （https://github.com/kssandyy）
-- phantom0301 （https://github.com/phantom0301）
+- kssandyy （https://github.com/kssandyy ）
+- phantom0301 （https://github.com/phantom0301 ）
 
 
 

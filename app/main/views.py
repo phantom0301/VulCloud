@@ -369,8 +369,6 @@ def user_manage():
             if action == 'delete':
                 id = request.values.get('id')
                 assert id != '','用户删除错误'
-                print('-----------------------')
-                print(id)
                 assert id != '1','创始管理员不可删除'
                 User.get(User.id == id).delete_instance()
                 return jsonify({'message':'用户删除成功',

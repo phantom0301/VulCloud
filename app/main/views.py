@@ -169,11 +169,21 @@ def image_look():
     if action == 'add':
         form = AddImageForm(request.form)
         if form.validate():
-            image_name = form.image_name.data
             image_id = form.image_id.data
+            image_name = form.image_name.data
             image_description = form.image_description.data
-            image = Images.insert(image_id=image_id,image_name=image_name,image_description=image_description,image_img=image_img).execute()
-            return jsonify({'message':'添加成功',
+            is_user = Images.select().where(Images.image_id==image_id).first()
+            if is_user!=None:
+                if image_img == 'registry.png':
+                    image = Images.update(image_id=image_id,image_name=image_name,image_description=image_description).where(Images.image_id==image_id).execute()
+                else:
+                    image = Images.update(image_id=image_id,image_name=image_name,image_description=image_description,image_img=image_img).where(Images.image_id==image_id).execute()
+                return jsonify({'message':'更新成功',
+                            'code':200,
+                            })
+            else:
+                image = Images.insert(image_id=image_id,image_name=image_name,image_description=image_description,image_img=image_img).execute()
+                return jsonify({'message':'添加成功',
                             'code':200,
                             })
         else:
@@ -189,7 +199,17 @@ def image_look():
         except:
             return jsonify({'message':'添加失败',
                             'code':400})
-
+    if action == 'upt' and id:
+        try:
+            image = Images.get(id=id)
+            return jsonify({'image_id':image.image_id,
+                            'image_name':image.image_name,
+                            'image_description':image.image_description,
+                            'code':200,
+                        })
+        except Exception as e:
+            return jsonify({'message':'添加失败'+str(e),
+                            'code':400})
     query = Images.select()
     total_count = query.count()
 
@@ -369,8 +389,6 @@ def user_manage():
             if action == 'delete':
                 id = request.values.get('id')
                 assert id != '','用户删除错误'
-                print('-----------------------')
-                print(id)
                 assert id != '1','创始管理员不可删除'
                 User.get(User.id == id).delete_instance()
                 return jsonify({'message':'用户删除成功',

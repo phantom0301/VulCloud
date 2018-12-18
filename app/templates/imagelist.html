@@ -63,7 +63,7 @@
                                                 <i class="fa fa-edit" aria-hidden="true"></i>
                                                 Deploy
                                             </a>
-                                            <a class="btn btn-xs btn-primary" href="#">
+                                            <a class="btn btn-xs btn-primary update-image" id="{{row.id}}">
                                                 <i class="fa fa-edit" aria-hidden="true"></i>
                                                 Update
                                             </a>
@@ -125,21 +125,21 @@
                     <div class="form-group">
                         <label class="col-sm-2 control-label">镜像名：</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" name="image_name" placeholder="e.g. Java RMI">
+                            <input type="text" class="form-control" name="image_name" placeholder="e.g. Java RMI" id="image_name">
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label class="col-sm-2 control-label">描述：</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" name="image_description" placeholder="e.g. Some vulnerability in Java RMI">
+                            <input type="text" class="form-control" name="image_description" placeholder="e.g. Some vulnerability in Java RMI" id="image_description">
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label class="col-sm-2 control-label">镜像ID:</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" name="image_id" placeholder="请导入镜像后使用 sudo docker images查看">
+                            <input type="text" class="form-control" name="image_id" placeholder="请导入镜像后使用 sudo docker images查看" id="image_id">
                         </div>
                     </div>
 
@@ -160,6 +160,8 @@
         </div>
     </div>
 </div>
+
+
 {% endblock %}
 
 {% block scripts %}
@@ -187,7 +189,6 @@
         var id = idInput.val();
         var img = imgInput;
         var csrftoken = $('input[name=csrf_token]').attr('value');
-
         if(!name || !id){
             zlalert.alertInfoToast("请输入完整信息！");
             return;
@@ -250,5 +251,36 @@
 
         })
     })
+
+    $(function () {
+        $(".update-image").click(function (event) {
+            var self = $(this);
+            var id = self.attr('id');
+            var csrftoken = $('input[name=csrf_token]').attr('value');
+            $.post({
+                'url':'/image_look/',
+                headers:{'X-CSRFToken':csrftoken},
+                'data':{
+                            "action":"upt",
+                            'id':id
+                        },
+                'success':function(data){
+                        if(data['code'] == 200){
+                            showQuery(data);
+                        }else{
+                            zlalert.alertInfo(data['message']);
+                            }
+                        }
+            })
+
+        })
+    })
+
+function showQuery (data) {
+    $("#image_name").val(data.image_name);
+    $("#image_description").val(data.image_description);
+    $("#image_id").val(data.image_id);
+    $('#image-dialog').modal('show');
+}
 </script>
 {% endblock %}

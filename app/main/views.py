@@ -356,6 +356,8 @@ def user_manage():
                 assert username != '','请输入用户名'
                 assert password != '','请输入密码'
                 password = User.generate_password(raw_password=password)
+                is_user = User.select().where(User.username==username).first()
+                assert is_user==None,'该用户已存在'
                 user = User.insert(username=username,password=password,level=level).execute()
                 return jsonify({'message':'用户添加成功',
                             'code':200,
@@ -367,6 +369,9 @@ def user_manage():
             if action == 'delete':
                 id = request.values.get('id')
                 assert id != '','用户删除错误'
+                print('-----------------------')
+                print(id)
+                assert id != '1','创始管理员不可删除'
                 User.get(User.id == id).delete_instance()
                 return jsonify({'message':'用户删除成功',
                             'code':200,

@@ -5,7 +5,7 @@ VulCloud 是一个希望为 Vulhub 漏洞镜像提供友好的 Web-UI 可视化�
 希望能够提供一个方便快捷的 Web 应用，用于漏洞环境的管理和快速启动。  
 
 1. 便捷的可视化操作界面
-2. 定时漏洞容器销毁（coding）
+2. 定时漏洞容器销毁（已完成）
 3. Web-Console 一键进入容器
 4. 镜像列表、容器列表直观呈现
 
@@ -133,7 +133,7 @@ gunicorn -k flask_sockets.worker --workers=4 --bind=0.0.0.0:5000 manage:app
 - 更加稳定的 Web Console 实现
 - 容器以及用户界面列表没有作分页
 - 更加合适的容器启动方式，添加包括容器启动、停止、重新部署等多个操作
-- 容器定时销毁机制
+- 容器定时销毁机制-&radic;
 - 开放端口显示
 
 ### 更加久远的计划
@@ -159,3 +159,8 @@ gunicorn -k flask_sockets.worker --workers=4 --bind=0.0.0.0:5000 manage:app
 ## BUG提交
 
 直接issue提起来
+
+## 更新
+
+- 管理员添加删除账户BUG修复
+- 定时销毁功能完成

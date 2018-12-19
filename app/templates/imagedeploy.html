@@ -235,10 +235,8 @@
     // });#image_registry > option:nth-child(1)
     $("#image_registry").change(function(){
         var value = $(this).children('option:selected').attr('value');
-        console.log(value);
         $("#container_id").val(value);
         $("#container_id").attr('value',value);
-        console.log($('#container_id').val());
     })
     function labelclick(obj){
         $(obj).attr('class', 'btn btn-primary active');

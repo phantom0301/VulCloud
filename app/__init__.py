@@ -2,6 +2,7 @@ from flask import Flask
 from flask_login import LoginManager
 from flask_wtf.csrf import CSRFProtect
 from flask_sockets import Sockets
+from flask_apscheduler import APScheduler
 
 from conf.config import config
 import logging
@@ -15,6 +16,7 @@ login_manager.login_view = 'auth.login'
 
 csrf = CSRFProtect()
 sockets = Sockets()
+scheduler = APScheduler()
 fileConfig('conf/log-app.conf')
 
 def get_logger(name):
@@ -37,6 +39,7 @@ def create_app(config_name):
     login_manager.init_app(app)
     csrf.init_app(app)
     sockets.init_app(app)
+    scheduler.init_app(app)
 
     from .main import main as main_blueprint
     app.register_blueprint(main_blueprint)

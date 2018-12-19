@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 import os
-from app import create_app
+from app import create_app,scheduler
 from flask_script import Manager, Server
 
 from gevent import pywsgi
@@ -14,4 +14,5 @@ server = pywsgi.WSGIServer(listener=("0.0.0.0",5000), application=app, handler_c
 
 
 if __name__ == '__main__':
+    scheduler.start()
     server.serve_forever()

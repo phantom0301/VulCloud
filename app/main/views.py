@@ -1,4 +1,4 @@
-from app import get_logger, get_config,sockets
+from app import get_logger, get_config,sockets,scheduler
 import math
 from flask import render_template, redirect, url_for, flash, request, jsonify
 from flask_login import login_required, current_user
@@ -15,6 +15,7 @@ import subprocess
 import uuid
 import os
 import re
+import datetime
 
 logger = get_logger(__name__)
 cfg = get_config()
@@ -219,11 +220,16 @@ def image_look():
 
     return render_template('imagelist.html',current_user=current_user,form=dict)
 
+
+def asp_task(id):
+    client = docker.from_env()
+    client.containers.get(container_id=id).remove(force=True)
+
 @main.route('/image_deploy/',methods=['GET','POST'])
 @login_required
 def image_deploy():
     action = request.values.get('action')
-
+   
     container_name = request.values.get('container_name')
     image_id = request.values.get('container_id')
     port_map = request.values.get('port_map')
@@ -232,7 +238,6 @@ def image_deploy():
     container_workingdir = request.values.get('container_workingdir')
     container_user = request.values.get('container_user')
     container_time = request.values.get('container_time')
-
     if action == 'deploy':
         try:
             # 条件判断
@@ -265,6 +270,10 @@ def image_deploy():
             container_id = con.id
             container_status = 1
             image = Containers.insert(user_id=user_id,container_name=container_name,container_id=container_id,container_status=container_status).execute()
+            if container_time != 'null':
+                now = datetime.datetime.now()
+                final = now+datetime.timedelta(minutes=int(container_time))
+                scheduler.add_job(func=asp_task,id=container_id,args=[container_id,],trigger='date',run_date=final)
             return jsonify({'message':container_name+' 部署成功',
                             'code':200,
                             })

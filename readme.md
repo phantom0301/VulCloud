@@ -129,29 +129,13 @@ gunicorn -k flask_sockets.worker --workers=4 --bind=0.0.0.0:5000 manage:app
 3. console 选项可以直接进入容器内部执行命令行，注意，vim等操作会导致 console 断开
 4. inspect 选项提供完整美观的容器元数据
 
-### TodoList
-- 更加稳定的 Web Console 实现
-- 容器以及用户界面列表没有作分页
-- 更加合适的容器启动方式，添加包括容器启动、停止、重新部署等多个操作
-- 容器定时销毁机制-&radic;
-- 开放端口显示
-
-### 更加久远的计划
-
-- Volume 机制 （如何实现的更加安全）
-- Network 机制
-- 更加方便的镜像可视化生成方式 （Web Compose 功能？-部分完成
-- 容器资源限制 （内存资源、CPU资源）
-- 搜索框
-
 ## 项目构建者
 
 - kssandyy （https://github.com/kssandyy ）
 - phantom0301 （https://github.com/phantom0301 ）
 
-
-
 ## 致谢
+
 - 本项目基本框架参考 flask-adminlte-handler 项目
 - 本项目部分UI参考 Portainer 项目
 - 本项目 Web-console 功能参考 Web-terminal-docker
@@ -160,10 +144,5 @@ gunicorn -k flask_sockets.worker --workers=4 --bind=0.0.0.0:5000 manage:app
 
 直接issue提起来
 
-## 更新
-2018-12-19
-- 管理员添加删除账户BUG修复
-- 定时销毁功能完成
-2018-01-01
-- 增加Dockerfile在线编辑生成功能
+
 

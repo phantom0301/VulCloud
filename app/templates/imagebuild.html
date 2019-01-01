@@ -1,0 +1,228 @@
+{% extends "base.html" %}
+
+{% block title %}镜像部署{% endblock %}
+
+{% block navbar %}
+<section class="content-header">
+    <h1>镜像编译</h1>
+    <ol class="breadcrumb">
+        <li><i class="fa fa-dashboard"></i> 当前位置</li>
+        <li class="active">镜像仓库</li>
+        <li class="active">镜像编译</li>
+    </ol>
+</section>
+{% endblock %}
+
+{% block content %}
+{{ form.csrf_token }}
+<div class="row">
+    <div class="col-sm-12">
+        <rd-widget>
+            <div class="widget">
+                <rd-widget-body>
+                    <div class="widget-body" >
+                        <div class="widget-content">
+                            <div active="state.activeTab">
+                                <ul class="nav nav-tabs">
+                                    <li class="uib-tab nav-item active" index="0">
+                                        <a class="nav-link" uib-tab-heading-transclude="" data-target="#builder" data-toggle="tab">
+                                            <uib-tab-heading>
+                                                <i class="fa fa-wrench space-right" aria-hidden="true"></i> 编辑
+                                            </uib-tab-heading>
+                                        </a>
+                                    </li>
+                                    <li class="uib-tab nav-item" index="1">
+                                        <a class="nav-link" uib-tab-heading-transclude="" data-target="#log" data-toggle="tab">
+                                            <uib-tab-heading>
+                                                <i class="fa fa-file-alt space-right" aria-hidden="true"></i> 日志
+                                            </uib-tab-heading>
+                                        </a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content">
+                                    <div class="tab-pane active" uib-tab-content-transclude="tab" id='builder'>
+                                        <form class="form-horizontal">
+                                            <div class="col-sm-12 form-section-title">
+                                            镜像名称
+                                            </div>
+                                            <div>
+                                                <!-- <div class="form-group">
+                                                    <span class="col-sm-12 text-muted small">
+                                                        命名规则: <code>name:tag</code>， <code>repository/name:tag</code>，<code>registryfqdn:port/repository/name:tag</code> 
+                                                    </span>
+                                                </div> -->
+                                                <div class="form-group">
+                                                    <div class="col-sm-12">
+                                                        <label class="control-label text-left">镜像名</label>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="col-sm-12">
+                                                        <div class="col-sm-12 form-inline" style="margin-top: 10px;">
+                                                            <div style="margin-top: 2px;">
+                                                                <div class="input-group col-sm-5 input-group-sm">
+                                                                    <input type="text" class="form-control" placeholder="e.g. myImage:myTag" auto-focus="" id="image_name">
+                                                                </div>
+                                                            </div><!---->
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div><!---->
+                                            <div class="col-sm-12 form-section-title">
+                                            编译方式
+                                            </div>
+                                            <div class="form-group"></div>
+                    
+                                            <div class="form-group" style="margin-bottom: 0">
+                                                <div class="boxselector_wrapper">
+                                                    <ul class="nav nav-pills nav-justified">
+                                                    <li class="active interactive">
+                                                        <input type="radio" id="method_editor" value="editor" name="513">
+                                                            <a data-target="#editor" data-toggle="tab">
+                                                                <div class="boxselector_header">
+                                                                    <i class="fa fa-edit" aria-hidden="true" style="margin-right: 2px;" ></i>
+                                                                    编辑
+                                                                </div>
+                                                                <p>Dockerfile Web编辑器</p>
+                                                            </a>
+                                                    </li>
+                                                    <li class="interactive">
+                                                        <input type="radio" id="method_upload" value="upload" name="514">
+                                                            <a data-target="#upload" data-toggle="tab">
+                                                                <div class="boxselector_header">
+                                                                    <i class="fa fa-upload" aria-hidden="true" style="margin-right: 2px;" ></i>
+                                                                    上传
+                                                                </div>
+                                                                <p>上传镜像压缩文件</p>
+                                                            </a>
+                                                    </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <!-- !build-method -->
+                                            <!-- web-editor -->
+                                            <div class="tab-content">
+                                                <div class="tab-pane active" id="editor">
+                                                    <div class="col-sm-12 form-section-title">
+                                                    Web editor
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <span class="col-sm-12 text-muted small">
+                                                            <a href="https://docs.docker.com/engine/reference/builder/" target="_blank">Dockerfile官方教程</a>.
+                                                        </span>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="col-sm-12">
+                                                            <code-editor identifier="image-build-editor" placeholder="Define or paste the content of your Dockerfile here" yml="false" on-change="editorUpdate">
+                                                                <textarea id="image-build-editor" class="form-control" placeholder="Define or paste the content of your Dockerfile here"></textarea>
+                                                            </code-editor>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="tab-pane" id="upload">
+                                                    <div class="col-sm-12 form-section-title">
+                                                        Upload
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <span class="col-sm-12 text-muted small">
+                                                            请上传Docker镜像导出后的tar文件.
+                                                        </span>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="col-sm-12">
+                                                            <button class="btn btn-sm btn-primary">上传文件</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- !upload -->
+                                            <!-- actions -->
+                                            <div class="col-sm-12 form-section-title">
+                                            生成镜像
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-sm-12">
+                                                    <button type="button" class="btn btn-primary btn-sm" onclick="build()">
+                                                        <span>
+                                                            <i class="fa fa-spin"></i>编译镜像
+                                                        </span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div><!---->
+
+                                    <div class="tab-pane" uib-tab-content-transclude="tab" id='log'> 
+                                        <pre class="log_viewer">              <!---->
+                                            <!----><div class="line"><p class="inner_line">No build output available.</p></div><!---->
+                                        </pre>
+                                    </div><!---->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </rd-widget-body>
+            </div>
+        </rd-widget>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+var editor = CodeMirror.fromTextArea(document.getElementById("image-build-editor"),{
+    lineNumbers:true,
+    mode:"dockerfile"
+});
+
+function build() {
+    var image_name = $("#image_name");
+    var text = editor.getValue();
+    image_name = image_name.val();
+    var csrftoken = $('input[name=csrf_token]').attr('value');
+
+    if(!image_name){
+            zlalert.alertInfoToast("请输入镜像名");
+            return;
+    }
+
+    var formData = new FormData();
+    formData.append("action",'build');
+    formData.append("image_name",image_name);
+    formData.append("text",text);
+    $.ajax({
+            "url": '/image_build',
+            type:"POST",
+            headers:{'X-CSRFToken':csrftoken},
+            contentType: false,
+            processData: false,
+            traditional: true,
+            async: true,
+            beforeSend:function () {
+                $.blockUI({message:'<h1><img src="busy.gif" /> 正在编译中，请等待</h1>'});
+            },
+            complete:function(){
+                $.unblockUI();
+            },
+            "data": formData,
+            'success':function (data) {
+                if(data['code']==200) {
+                    zlalert.alertInfo(data['message']);
+                    window.setTimeout(function(){
+                        window.location.reload();
+                    },5000);
+                    console.log(data['log']);
+                    
+                }else{
+                    zlalert.alertInfo(data['message']);
+                }
+            },
+            'fail':function(){
+                zlalert.alertNetworkError();
+            }
+  
+        });
+}
+</script>
+{% endblock %}

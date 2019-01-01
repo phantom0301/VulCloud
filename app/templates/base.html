@@ -20,7 +20,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/global.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/sweetalert.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='plugins/xterm/dist/xterm.css') }}">
-    
+    <link rel="stylesheet" href="{{ url_for('static', filename='plugins/codemirror/codemirror.css') }}">
     <!--[if lt IE 9]>
     <script src="plugins/html5shiv.min.js"></script>
     <script src="plugins/respond.min.js"></script>
@@ -90,6 +90,7 @@
                         <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
                     </a>
                     <ul class="treeview-menu">
+                        <li><a href="{{ url_for('main.image_build') }}"><i class="fa fa-circle-o"></i> 镜像编译</a></li>
                         <li><a href="{{ url_for('main.image_look') }}"><i class="fa fa-circle-o"></i> 镜像查询</a></li>
                         <li><a href="{{ url_for('main.image_deploy') }}"><i class="fa fa-circle-o"></i> 镜像部署</a></li>
                     </ul>
@@ -183,6 +184,11 @@
 <script src="{{ url_for('static', filename='js/sweetalert.js')}}"></script>
 <script src="{{ url_for('static', filename='plugins/xterm/dist/xterm.js') }}"></script>
 <script src="{{ url_for('static', filename='plugins/xterm/dist/addons/attach/attach.js') }}"></script>
+<script src="{{ url_for('static', filename='plugins/codemirror/codemirror.js') }}"></script>
+<script src="{{ url_for('static', filename='plugins/codemirror/simple.js') }}"></script>
+<script src="{{ url_for('static', filename='plugins/codemirror/dockerfile.js') }}"></script>
+<script src="{{ url_for('static', filename='plugins/jQueryUI/jquery.blockUI.js') }}"></script>
+
 {% block scripts %}{% endblock %}
 </body>
 </html>

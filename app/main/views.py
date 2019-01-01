@@ -16,9 +16,11 @@ import uuid
 import os
 import re
 import datetime
+from concurrent.futures import ThreadPoolExecutor
 
 logger = get_logger(__name__)
 cfg = get_config()
+executor = ThreadPoolExecutor(cfg.DOCKER_BUILDER_MAX_NUM)
 
 # 通用列表查询
 def common_list(DynamicModel, view):
@@ -422,3 +424,27 @@ def user_manage():
                         'code':400})
         
     return render_template('userlist.html', current_user=current_user,form=dict)
+
+@main.route('/image_build', methods=['GET', 'POST'])
+@login_required
+def image_build():
+    action = request.values.get('action')
+    image_name = request.values.get('image_name')
+    text = request.values.get('text')
+    form = AddImageForm()
+    if action == 'build':
+        try:
+            assert image_name != '', '请输入镜像名称'
+            assert text != '', 'Dockerfile内容不能为空'
+            #file_name = str(uuid.uuid1())
+            executor.submit(utils.docker_build(image_name=image_name, text=text))
+            return jsonify({
+                'message':'编译进行中，请稍后查看镜像仓库',
+                'code':200
+            })
+        except Exception as e:
+            return jsonify({'message':'编译失败, ' + str(e),
+                            'code':400})
+
+    dict = {'csrf_token':form.csrf_token}
+    return render_template('imagebuild.html',current_user=current_user,form=dict)

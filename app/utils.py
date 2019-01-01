@@ -4,14 +4,14 @@ import html
 import json
 import datetime
 from urllib.parse import unquote
-from app.models import CfgNotify
+from app.models import CfgNotify,Images
 from flask import Response, flash
 
 import time
 import docker
 import threading
 from socket import timeout
-
+from io import BytesIO
 
 ## 字符串转字典
 def str_to_dict(dict_str):
@@ -183,3 +183,13 @@ class BeatWS(threading.Thread):
         while not self.ws.closed:
             time.sleep(2)
             self.docker_client.ping()
+
+def docker_build(image_name, text):
+    f = BytesIO()
+    f.write(text.encode('utf-8'))
+    client = docker.from_env()
+    _image,_log = client.images.build(fileobj=f)
+    image_id = _image.id.split(':')[1]
+    image_name = image_name
+    image = Images.insert(image_id=image_id, image_name=image_name, image_description='').execute()
+    _log = str(_log)

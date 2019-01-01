@@ -140,7 +140,7 @@ gunicorn -k flask_sockets.worker --workers=4 --bind=0.0.0.0:5000 manage:app
 
 - Volume 机制 （如何实现的更加安全）
 - Network 机制
-- 更加方便的镜像可视化生成方式 （Web Compose 功能？）
+- 更加方便的镜像可视化生成方式 （Web Compose 功能？-部分完成
 - 容器资源限制 （内存资源、CPU资源）
 - 搜索框
 
@@ -161,6 +161,9 @@ gunicorn -k flask_sockets.worker --workers=4 --bind=0.0.0.0:5000 manage:app
 直接issue提起来
 
 ## 更新
-
+2018-12-19
 - 管理员添加删除账户BUG修复
 - 定时销毁功能完成
+2018-01-01
+- 增加Dockerfile在线编辑生成功能
+

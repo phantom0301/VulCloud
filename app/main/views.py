@@ -445,6 +445,18 @@ def image_build():
         except Exception as e:
             return jsonify({'message':'编译失败, ' + str(e),
                             'code':400})
-
+    if action == 'upload':
+        files = request.files['image_file']
+        try:
+            assert image_name != '', '请输入镜像名称'
+            assert files != '','请上传镜像文件'
+            executor.submit(utils.docker_upload(image_name=image_name, data=files))
+            return jsonify({
+                'message':'编译进行中，请稍后查看镜像仓库',
+                'code':200
+            })
+        except Exception as e:
+            return jsonify({'message':'编译失败, ' + str(e),
+                            'code':400})
     dict = {'csrf_token':form.csrf_token}
     return render_template('imagebuild.html',current_user=current_user,form=dict)

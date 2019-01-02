@@ -193,3 +193,10 @@ def docker_build(image_name, text):
     image_name = image_name
     image = Images.insert(image_id=image_id, image_name=image_name, image_description='').execute()
     _log = str(_log)
+
+def docker_upload(image_name, data):
+    client = docker.from_env()
+    _image = client.images.load(data)[0]
+    image_id = _image.id.split(':')[1]
+    image_name = image_name
+    image = Images.insert(image_id=image_id, image_name=image_name, image_description='').execute()

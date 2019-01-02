@@ -76,7 +76,7 @@
                                             <div class="form-group" style="margin-bottom: 0">
                                                 <div class="boxselector_wrapper">
                                                     <ul class="nav nav-pills nav-justified">
-                                                    <li class="active interactive">
+                                                    <li class="interactive active">
                                                         <input type="radio" id="method_editor" value="editor" name="513">
                                                             <a data-target="#editor" data-toggle="tab">
                                                                 <div class="boxselector_header">
@@ -126,12 +126,14 @@
                                                     </div>
                                                     <div class="form-group">
                                                         <span class="col-sm-12 text-muted small">
-                                                            请上传Docker镜像导出后的tar文件.
+                                                            请上传Docker镜像导出后的tar文件,使用docker save导出镜像.
                                                         </span>
                                                     </div>
                                                     <div class="form-group">
                                                         <div class="col-sm-12">
-                                                            <button class="btn btn-sm btn-primary">上传文件</button>
+                                                            <input type="file" id="upload_file" style="display:none">
+                                                            <div id=file_name></div>
+                                                            <button type="button" onclick="upload_click()" class="btn btn-sm btn-primary">上传文件</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -177,6 +179,7 @@ var editor = CodeMirror.fromTextArea(document.getElementById("image-build-editor
 });
 
 function build() {
+    if ($("#method_editor").parent().attr('class') == "interactive active") {
     var image_name = $("#image_name");
     var text = editor.getValue();
     image_name = image_name.val();
@@ -200,7 +203,7 @@ function build() {
             traditional: true,
             async: true,
             beforeSend:function () {
-                $.blockUI({message:'<h1><img src="busy.gif" /> 正在编译中，请等待</h1>'});
+                $.blockUI({message:'<h1>正在编译中，请等待</h1>'});
             },
             complete:function(){
                 $.unblockUI();
@@ -212,7 +215,6 @@ function build() {
                     window.setTimeout(function(){
                         window.location.reload();
                     },5000);
-                    console.log(data['log']);
                     
                 }else{
                     zlalert.alertInfo(data['message']);
@@ -223,6 +225,76 @@ function build() {
             }
   
         });
+        }
+    if ($("#method_upload").parent().attr('class') == "interactive active") {
+        var fileObj = document.getElementById("upload_file").files[0];
+        if(fileObj!=undefined){
+            var file_name = fileObj.name;
+        }
+        else {
+            zlalert.alertInfoToast("请选择待上传镜像文件");
+            return;
+        }
+        var image_name = $("#image_name");
+        image_name = image_name.val();
+        var csrftoken = $('input[name=csrf_token]').attr('value');
+        if(!image_name){
+            zlalert.alertInfoToast("请输入镜像名");
+            return;
+        }
+        var formData = new FormData();
+        formData.append("action",'upload');
+        formData.append("image_name",image_name);
+        formData.append("image_file",fileObj);
+        $.ajax({
+            "url": '/image_build',
+            type:"POST",
+            headers:{'X-CSRFToken':csrftoken},
+            contentType: false,
+            processData: false,
+            traditional: true,
+            async: true,
+            beforeSend:function () {
+                $.blockUI({message:'<h1>正在编译中，请等待</h1>'});
+            },
+            complete:function(){
+                $.unblockUI();
+            },
+            "data": formData,
+            'success':function (data) {
+                if(data['code']==200) {
+                    zlalert.alertInfo(data['message']);
+                    window.setTimeout(function(){
+                        window.location.reload();
+                    },5000);
+
+                    
+                }else{
+                    zlalert.alertInfo(data['message']);
+                }
+            },
+            'fail':function(){
+                zlalert.alertNetworkError();
+            }
+  
+        });
+
+    }
 }
+
+function upload_click() {
+    $('#upload_file').click();
+}
+
+$(function () {
+    $('#upload_file').change( function() {
+        if (document.getElementById("upload_file").files[0] == undefined) {
+            $("#file_name").text('undefined');
+        } else {
+            var file_name = document.getElementById("upload_file").files[0].name.replace('<','&lt;').replace('>','&gt;')
+            $("#file_name").text('文件名：'+file_name);
+        }
+    })
+})
 </script>
 {% endblock %}

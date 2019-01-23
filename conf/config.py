@@ -11,6 +11,7 @@ class Config:
     DB_DATABASE = 'VULCloud'
     ITEMS_PER_PAGE = 10
     JWT_AUTH_URL_RULE = '/api/auth'
+    DOCKER_BUILDER_MAX_NUM = 1
 
     @staticmethod
     def init_app(app):

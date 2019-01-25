@@ -73,6 +73,7 @@ function restTemplate(httpMethod, svcName, jsInObj, callback) {
         data: jsInObj,
         datatype: "json",
         contentType: "application/json; charset=utf-8",
+        headers: {"Authorization": "JWT " + accessToken},
         beforeSend: function () {
         },
         success: function (jsOutObj) {
